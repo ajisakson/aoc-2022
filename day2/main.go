@@ -2,18 +2,12 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
-	"io"
 	"os"
-	"strconv"
+	"strings"
 )
 
-var mostCalories int = 0
-var secondMost int = 0
-var thirdMost int = 0
-var currentCalories int = 0
-var lineValue int = 0
+var runningScore int = 0
 
 func main() {
 	filePath := os.Args[1]
@@ -27,38 +21,57 @@ func main() {
 	fileScanner.Split(bufio.ScanLines)
 
 	for fileScanner.Scan() {
-		if fileScanner.Text() == "" {
-			if currentCalories > mostCalories {
-				thirdMost = secondMost
-				secondMost = mostCalories
-				mostCalories = currentCalories
-			} else if currentCalories > secondMost {
-				thirdMost = secondMost
-				secondMost = currentCalories
-			} else if currentCalories > thirdMost {
-				thirdMost = currentCalories
+		s := strings.Split(fileScanner.Text(), " ")
+		opponentPlay := s[0]
+		myPlay := s[1]
+
+		switch opponentPlay {
+		case "A":
+			switch myPlay {
+			case "X":
+				// draw
+				runningScore += 1 + 3
+			case "Y":
+				// win
+				runningScore += 2 + 6
+			case "Z":
+				// loss
+				runningScore += 3 + 0
 			}
-			currentCalories = 0
-		} else {
-			lineValue, err = strconv.Atoi(fileScanner.Text())
-			if err != nil {
-				fmt.Printf("err found!")
+		case "B":
+			switch myPlay {
+			case "X":
+				// loss
+				runningScore += 1 + 0
+			case "Y":
+				// draw
+				runningScore += 2 + 3
+			case "Z":
+				// win
+				runningScore += 3 + 6
 			}
-			currentCalories += lineValue
+		case "C":
+			switch myPlay {
+			case "X":
+				// win
+				runningScore += 1 + 6
+			case "Y":
+				// loss
+				runningScore += 2 + 0
+			case "Z":
+				// draw
+				runningScore += 3 + 3
+			}
 		}
 	}
 
-	if errors.Is(err, io.EOF) {
-		if currentCalories > mostCalories {
-			mostCalories = currentCalories
-			currentCalories = 0
-		}
-	}
-
-	topThreeTotal := mostCalories + secondMost + thirdMost
-	fmt.Printf("%d is the most calories", topThreeTotal)
+	fmt.Printf("Your final score is %d", runningScore)
 
 	if err = file.Close(); err != nil {
 		fmt.Printf("Could not close file")
 	}
 }
+
+// Rock: A, X
+// Paper: B, Y
+// Scissors: C, Z
