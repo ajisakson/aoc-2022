@@ -29,38 +29,38 @@ func main() {
 		case "A":
 			switch myPlay {
 			case "X":
-				// draw
-				runningScore += 1 + 3
+				// lose
+				runningScore += 0 + 3
 			case "Y":
-				// win
-				runningScore += 2 + 6
+				// draw
+				runningScore += 3 + 1
 			case "Z":
-				// loss
-				runningScore += 3 + 0
+				// win
+				runningScore += 6 + 2
 			}
 		case "B":
 			switch myPlay {
 			case "X":
-				// loss
-				runningScore += 1 + 0
+				// lose
+				runningScore += 0 + 1
 			case "Y":
 				// draw
-				runningScore += 2 + 3
+				runningScore += 3 + 2
 			case "Z":
 				// win
-				runningScore += 3 + 6
+				runningScore += 6 + 3
 			}
 		case "C":
 			switch myPlay {
 			case "X":
-				// win
-				runningScore += 1 + 6
+				// lose
+				runningScore += 0 + 2
 			case "Y":
-				// loss
-				runningScore += 2 + 0
-			case "Z":
 				// draw
 				runningScore += 3 + 3
+			case "Z":
+				// win
+				runningScore += 6 + 1
 			}
 		}
 	}
