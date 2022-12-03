@@ -77,22 +77,30 @@ func main() {
 	fileScanner := bufio.NewScanner(file)
 	fileScanner.Split(bufio.ScanLines)
 
-	lineCount := 0
+	var contentsA string
+	var contentsB string
+	var contentsC string
+	lineCount := 1
 	for fileScanner.Scan() {
-		lineCount++
-		contents := fileScanner.Text()
-		totalItems := len(contents)
-		compartmentA := contents[0:(totalItems / 2)]
-		compartmentB := contents[(totalItems / 2):totalItems]
 
-		for i, c := range compartmentA {
-			_ = i
-			if strings.ContainsRune(compartmentB, c) {
-				sumOfPriorities += priority[c]
-				fmt.Println("Line count:", lineCount, "Total items:", totalItems, "Shared character:", string(c), "Character value:", priority[c], "Running total:", sumOfPriorities)
-				break
+		switch lineCount {
+		case 1:
+			contentsA = fileScanner.Text()
+		case 2:
+			contentsB = fileScanner.Text()
+		case 3:
+			contentsC = fileScanner.Text()
+			for i, c := range contentsA {
+				_ = i
+				if strings.ContainsRune(contentsB, c) && strings.ContainsRune(contentsC, c) {
+					sumOfPriorities += priority[c]
+					break
+				}
 			}
+			lineCount = 0
 		}
+
+		lineCount++
 	}
 
 	fmt.Printf("The sum of priorities is %d", sumOfPriorities)
