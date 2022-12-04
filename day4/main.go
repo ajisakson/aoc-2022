@@ -31,27 +31,35 @@ func main() {
 		startB, err3 := strconv.Atoi(elfBRange[0])
 		endB, err4 := strconv.Atoi(elfBRange[1])
 
-		if startA <= startB && endA >= endB {
+		if startA == startB || endA == startB || startA == endB || endA == endB {
 			totalOverlaps++
-		} else if startB <= startA && endB >= endA {
+			fmt.Println("hit1")
+		} else if startB > startA && startB < endA {
 			totalOverlaps++
+			fmt.Println("hit2")
+		} else if endB > startA && endB < endA {
+			totalOverlaps++
+			fmt.Println("hit3")
+		} else if startA > startB && startA < endB {
+			totalOverlaps++
+			fmt.Println("hit4")
 		}
 
 		if err1 != nil {
-			fmt.Print(err1.Error())
+			fmt.Println(err1.Error())
 		}
 		if err2 != nil {
-			fmt.Print(err2.Error())
+			fmt.Println(err2.Error())
 		}
 		if err3 != nil {
-			fmt.Print(err3.Error())
+			fmt.Println(err3.Error())
 		}
 		if err4 != nil {
-			fmt.Print(err4.Error())
+			fmt.Println(err4.Error())
 		}
 	}
 
-	fmt.Printf("Total containments: %d", totalOverlaps)
+	fmt.Printf("Total overlaps: %d", totalOverlaps)
 
 	if err = file.Close(); err != nil {
 		fmt.Print("Could not close file")
